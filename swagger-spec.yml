@@ -1,0 +1,86 @@
+openapi: "3.0.1"
+
+info:
+  version: "1.0"
+  title: "WiC Polls"
+  description: "The main backend api for polls"
+  
+  contact:
+    name:  "Ariel Viggiano"
+    email: "aav8553@rit.edu"
+    url:   "wic.rit.edu/contact.php"
+
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+
+servers:
+  - url: "http://polls.wic.rit.edu/{version}"
+    description: "Deployed URL"
+    variables:
+      version:
+        default: "v1"
+        
+  - url: "http://127.0.0.1:5000/{version}"
+    description: "Is the local testing branch"
+    variables:
+      version:
+        default: "v1"
+
+paths:
+  /app/polls:
+    get:
+      description: "Gets a poll by id"
+
+      parameters:
+        - in: "query"
+          name: "id"
+          required: true
+          schema:
+            type: "integer"
+
+      responses:
+        200:
+          description: "Ok"
+        404:
+          description: "Not Found"
+    post:
+      description: "Puts a new poll into the db"
+      
+      requestBody:
+        description: "Json object containing the needed data for creating a poll"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Poll'
+      
+      responses:
+        200:
+          description: "Ok"
+  
+  
+components:
+  schemas:
+    Poll:
+      type: "object"
+      properties:
+        title:
+          type: "string"
+        options:
+          type: "array"
+          items:
+            $ref: '#/components/schemas/TxtOption'
+            $ref: '#/components/schemas/ImgOption'
+
+    TxtOption:
+      type: "object"
+      properties:
+        obj_type:
+          type: "string"
+
+    ImgOption:
+      type: "object"
+      properties:
+        obj_type:
+          type: "string"
