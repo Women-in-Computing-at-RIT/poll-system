@@ -58,8 +58,187 @@ paths:
       responses:
         200:
           description: "Ok"
-  
-  
+    put:
+      description: "Edits a poll in the db"
+
+      parameters:
+        - in: "query"
+          name: "id"
+          required: true
+          schema:
+            type: "integer"
+
+      requestBody:
+        description: "Json object containing the needed data for creating a poll"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Poll'
+      responses:
+        200:
+          description: "Ok"
+        404:
+          description: "Not Found"
+
+  /slack/polls:
+    get:
+      description: "Gets a poll by id"
+      parameters:
+        - in: "query"
+          name: "id"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        200:
+          description: "Ok"
+        404:
+          description: "Not Found"
+    post:
+      description: "Puts a new poll into the db"
+      
+      requestBody:
+        description: "Json object containing the needed data for creating a poll"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Poll'
+      responses:
+        200:
+          description: "Ok"
+        422:
+          description: "Unprocessed Entity"
+    put:
+      description: "Edits a poll in the db"
+
+      parameters:
+        - in: "query"
+          name: "id"
+          required: true
+          schema:
+            type: "integer"
+
+      requestBody:
+        description: "Json object containing the needed data for creating a poll"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Slack'
+      responses:
+        200:
+          description: "Ok"
+        404:
+          description: "Not Found"
+        422:
+          description: "Unprocessed Entity"
+    delete:
+      description: "Deletes a poll from the db"
+      parameters:
+        - in: "query"
+          name: "id"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        200:
+          description: "Ok"
+        404:
+          description: "Not Found"
+  /admin/polls:
+    get:
+      description: "Gets a poll by id"
+
+      parameters:
+        - in: "query"
+          name: "id"
+          required: true
+          schema:
+            type: "integer"
+
+      responses:
+        200:
+          description: "Ok"
+        404:
+          description: "Not Found"
+    put:
+      description: "Edits a poll in the db"
+
+      parameters:
+        - in: "query"
+          name: "id"
+          required: true
+          schema:
+            type: "integer"
+
+      requestBody:
+        description: "Json object containing the needed data for creating a poll"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Slack'
+      responses:
+        200:
+          description: "Ok"
+        404:
+          description: "Not Found"
+        422:
+          description: "Unprocessed Entity"
+    post:
+      description: "Puts a new poll into the db"
+      
+      requestBody:
+        description: "Json object containing the needed data for creating a poll"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Poll'
+      responses:
+        200:
+          description: "Ok"
+        422:
+          description: "Unprocessed Entity"
+    delete:
+      description: "Deletes a poll from the db"
+      parameters:
+        - in: "query"
+          name: "id"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        200:
+          description: "Ok"
+        404:
+          description: "Not Found"
+  /admin/superAdmin:
+    put:
+      description: "Change the project head/super admin permissions"
+      parameters:
+        - in: "query"
+          name: "id"
+          required: true
+          schema:
+            type: "integer"
+      requestBody:
+        description: "Json object containing the needed data for changing the superAdmin"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SuperAdmin'
+      responses:
+        200:
+          description: "Ok"
+        404:
+          description: "Not Found"
+        422:
+          description: "Unprocessed Entity"
+
 components:
   schemas:
     Poll:
