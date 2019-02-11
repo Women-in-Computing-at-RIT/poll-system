@@ -58,6 +58,8 @@ paths:
       responses:
         200:
           description: "Ok"
+        422:
+          description: "Unprocessed Entity"
     put:
       description: "Edits a poll in the db"
 
@@ -80,6 +82,7 @@ paths:
           description: "Ok"
         404:
           description: "Not Found"
+        description: "Unprocessed Entity"
 
   /slack/polls:
     get:
@@ -126,7 +129,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Slack'
+              $ref: '#/components/schemas/Poll'
       responses:
         200:
           description: "Ok"
@@ -196,7 +199,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Poll'
+              $ref: '#/components/schemas/Slack'
       responses:
         200:
           description: "Ok"
@@ -249,9 +252,11 @@ components:
         options:
           type: "array"
           items:
-            $ref: '#/components/schemas/TxtOption'
-            $ref: '#/components/schemas/ImgOption'
-
+            allOf:
+              [
+                $ref: '#/components/schemas/TxtOption',
+                $ref: '#/components/schemas/ImgOption'
+              ]
     TxtOption:
       type: "object"
       properties:
@@ -263,3 +268,27 @@ components:
       properties:
         obj_type:
           type: "string"
+          
+    Slack:
+      type: "object"
+      properties:
+        title:
+          type: "string"
+        options:
+          type: "array"
+          items:
+            allOf:
+              [
+                $ref: '#/components/schemas/TxtOption',
+                $ref: '#/components/schemas/ImgOption'
+              ]
+    
+    SuperAdmin:
+      type: "object"
+      properties:
+        title:
+          type: "string"
+        options:
+          type: "array"
+          items:
+            $ref: '#/components/schemas/TxtOption' 
