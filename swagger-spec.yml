@@ -82,7 +82,8 @@ paths:
           description: "Ok"
         404:
           description: "Not Found"
-        description: "Unprocessed Entity"
+        422:
+          description: "Unprocessed Entity"
 
   /slack/polls:
     get:
