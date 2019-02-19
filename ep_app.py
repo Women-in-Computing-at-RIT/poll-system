@@ -9,16 +9,16 @@ from flask import Blueprint
 bp = Blueprint('app', __name__, url_prefix='/app')
 
 
-@bp.route('/polls', method='GET')
+@bp.route('/polls', methods=['GET'])
 def get_polls():
     return 'Hello World!'
 
 
-@bp.route('/polls', method='POST')
+@bp.route('/polls', methods=['POST'])
 def post_polls():
     pass
 
 
-@bp.route('/polls', method='PUT')
+@bp.route('/polls', methods=['PUT'])
 def put_polls():
     pass
