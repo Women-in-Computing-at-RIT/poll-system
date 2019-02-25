@@ -27,8 +27,3 @@ def put_polls():
 @bp.route('/polls', methods=['DELETE'])
 def del_polls():
     pass
-
-
-@bp.route('/superAdmin', methods=['PUT'])
-def put_super_admin():
-    pass
