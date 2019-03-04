@@ -4,15 +4,19 @@ Author::Kevin.P.Barnett
 Date::Mar.04.2019
 """
 
+import os
+
 
 class Config(object):
     DEBUG = False
-    DATABASE_URI = 'sqlite:///:memory:'
+    DATABASE = 'sqlite:///:memory:'
+    SECRET_KEY = 'REPLACE'
 
 
 class ProductionConfig(Config):
-    pass
+    SECRET_KEY = os.environ.get('POLL_SECRET')
 
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    SECRET_KEY = 'dev'
