@@ -9,26 +9,21 @@ from flask import Blueprint
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 
-@bp.route('/polls', method='GET')
+@bp.route('/polls', methods=['GET'])
 def get_polls():
     pass
 
 
-@bp.route('/polls', method='POST')
+@bp.route('/polls', methods=['POST'])
 def post_polls():
     pass
 
 
-@bp.route('/polls', method='PUT')
+@bp.route('/polls', methods=['PUT'])
 def put_polls():
     pass
 
 
-@bp.route('/polls', method='DELETE')
+@bp.route('/polls', methods=['DELETE'])
 def del_polls():
-    pass
-
-
-@bp.route('/superAdmin', method='PUT')
-def put_super_admin():
     pass
