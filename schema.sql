@@ -10,14 +10,16 @@ CREATE TABLE users (
 
 CREATE TABLE poll (
   poll_id INTEGER PRIMARY KEY,
-  FOREIGN KEY (author) REFERENCES users (username),
-  title TEXT NOT NULL
+  author TEXT NOT NULL,
+  title TEXT NOT NULL,
+  FOREIGN KEY (author) REFERENCES users(username)
 );
 
 CREATE TABLE options (
     option_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    FOREIGN KEY (poll_id) REFERENCES poll (poll_id),
+    poll_id INTEGER NOT NULL,
     option_text TEXT NOT NULL,
     option_image TEXT,
-    tally INTEGER
+    tally INTEGER,
+    FOREIGN KEY (poll_id) REFERENCES poll(poll_id)
 );

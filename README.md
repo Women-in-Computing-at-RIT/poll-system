@@ -11,3 +11,6 @@ Windows:
 - ```set FLASK_APP=poll-system```
 - ```set FLASK_ENV=development```
 - ```flask run```
+
+Both: run after first ```flask run```
+- ```flask init-db```

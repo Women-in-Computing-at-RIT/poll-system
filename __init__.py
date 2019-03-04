@@ -5,25 +5,17 @@ Date::Feb.18.2019
 """
 
 import os
+from .config import ProductionConfig, DevelopmentConfig
 from flask import Flask
 
 
-def create_app(test_config=None):
+def create_app():
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'poll_db.sqlite')
-    )
 
-    if test_config is None:
-        app.config.from_pyfile('config.py', silent=True)
+    if os.environ.get('POLL_PROD') is not None:
+        app.config.from_object(ProductionConfig)
     else:
-        app.config.from_mapping(test_config)
-
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        print('Failed to Create Path: '+app.instance_path)
+        app.config.from_object(DevelopmentConfig)
 
     from . import db, ep_app, ep_slack, ep_admin
     db.init_app(app)
