@@ -17,10 +17,11 @@ def create_app():
     else:
         app.config.from_object(DevelopmentConfig)
 
-    from . import db, ep_app, ep_slack, ep_admin
+    from . import db, ep_app, ep_auth, ep_slack, ep_admin
     db.init_app(app)
 
     app.register_blueprint(ep_app.bp)
+    app.register_blueprint(ep_auth.bp)
     app.register_blueprint(ep_slack.bp)
     app.register_blueprint(ep_admin.bp)
 

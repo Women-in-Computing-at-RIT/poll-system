@@ -9,7 +9,8 @@ import os
 
 class Config(object):
     DEBUG = False
-    DATABASE = 'sqlite:///:memory:'
+    DATABASE = 'd:\\poll.db'
+    SCHEMA_PATH = 'd:\\Pycharm_Project\\poll-system\\'
     SECRET_KEY = 'REPLACE'
 
 
