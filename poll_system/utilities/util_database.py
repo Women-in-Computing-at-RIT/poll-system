@@ -9,7 +9,7 @@ import sqlite3
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
-
+from .util_config import Config
 
 def init_app(app):
     app.teardown_appcontext(close_db)
@@ -21,13 +21,13 @@ def init_app(app):
 def init_db():
     print('connecting to database')
     db = sqlite3.connect(
-            current_app.config['DATABASE'],
+            Config.DATABASE,
             detect_types=sqlite3.PARSE_DECLTYPES
         )
     g.db.row_factory = sqlite3.Row
 
-    with current_app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode('utf8'))
+    with open(Config.DATABASE+'schema.sql') as f:
+        db.executescript(f.read())
 
 
 @click.command('init-db')
