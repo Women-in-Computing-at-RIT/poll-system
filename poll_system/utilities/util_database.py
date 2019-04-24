@@ -25,7 +25,7 @@ def init_db():
             detect_types=sqlite3.PARSE_DECLTYPES
         )
 
-    with open(Config.DATABASE+'schema.sql') as f:
+    with open('/app/schema.sql') as f:
         db.executescript(f.read())
 
 
