@@ -15,9 +15,11 @@ class Config(object):
 
 
 class ProductionConfig(Config):
-    SECRET_KEY = os.environ.get('POLL_SECRET')
+    SECRET_KEY = os.environ.get('POLLS_SECRET')
 
 
 class DevelopmentConfig(Config):
     DEBUG = True
     SECRET_KEY = 'dev'
+    DATABASE = 'd:\\poll.db'
+    SCHEMA_PATH = 'd:\\Pycharm_Project\\poll-system\\'
