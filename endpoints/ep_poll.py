@@ -65,7 +65,7 @@ def put_new_poll(token):
 def delete_poll(token):
     if token.get('role') is 'admin':
         poll_id = request.data.get('poll_id')
-        db.execute('DELETE FROM polls ')
+        get_db().execute('DELETE FROM polls ')
 
 
 @bp.route('/asdfasdf', methods=['POST'])
