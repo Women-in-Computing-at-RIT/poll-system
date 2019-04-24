@@ -1,1 +1,1 @@
-web: gunicorn poll-system:app
+web: gunicorn poll_system:app

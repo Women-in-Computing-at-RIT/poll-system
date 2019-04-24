@@ -7,8 +7,8 @@ Date::Feb.25.2019
 from flask import Blueprint, request
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from utilities.util_token import generate_token_with_claims, validate_token
-from utilities.util_database import get_db
+from poll_system.utilities.util_token import generate_token_with_claims, validate_token
+from poll_system.utilities.util_database import get_db
 
 import json
 

@@ -5,7 +5,7 @@ Date::Feb.18.2019
 """
 
 import os
-from utilities.util_config import ProductionConfig, DevelopmentConfig
+from poll_system.utilities.util_config import ProductionConfig, DevelopmentConfig
 from flask import Flask
 
 
@@ -17,9 +17,9 @@ def create_app():
     else:
         app.config.from_object(DevelopmentConfig)
 
-    from endpoints import ep_auth
-    from endpoints import ep_poll
-    from utilities import util_database
+    from poll_system.endpoints import ep_auth
+    from poll_system.endpoints import ep_poll
+    from poll_system.utilities import util_database
 
     util_database.init_app(app)
 

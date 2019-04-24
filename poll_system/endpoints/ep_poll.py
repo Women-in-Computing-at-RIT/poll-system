@@ -5,9 +5,9 @@ Date::Feb.18.2019
 """
 
 from flask import Blueprint, request
-from utilities.util_token import validate_token
-from objects.obj_poll import Poll
-from utilities.util_database import get_db
+from poll_system.utilities.util_token import validate_token
+from poll_system.objects.obj_poll import Poll
+from poll_system.utilities.util_database import get_db
 
 from uuid import uuid4
 from time import time
