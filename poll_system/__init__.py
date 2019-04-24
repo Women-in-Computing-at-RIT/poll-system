@@ -27,3 +27,6 @@ def create_app():
     app.register_blueprint(ep_auth.bp)
 
     return app
+
+
+app = create_app()
