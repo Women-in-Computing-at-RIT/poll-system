@@ -9,8 +9,8 @@ import os
 
 class Config(object):
     DEBUG = False
-    DATABASE = '~/poll.db'
-    SCHEMA_PATH = '~/poll_system/'
+    DATABASE = '/app/poll.db'
+    SCHEMA_PATH = '/app/poll_system/'
     SECRET_KEY = 'REPLACE'
 
 

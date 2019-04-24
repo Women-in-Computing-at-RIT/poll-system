@@ -13,10 +13,8 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
     if os.environ.get('POLL_PROD') is not None:
-        print('Prod')
         app.config.from_object(ProductionConfig)
     else:
-        print('Dev')
         app.config.from_object(DevelopmentConfig)
 
     from poll_system.endpoints import ep_auth
