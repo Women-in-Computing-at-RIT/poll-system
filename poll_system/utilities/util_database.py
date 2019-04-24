@@ -24,7 +24,6 @@ def init_db():
             Config.DATABASE,
             detect_types=sqlite3.PARSE_DECLTYPES
         )
-    g.db.row_factory = sqlite3.Row
 
     with open(Config.DATABASE+'schema.sql') as f:
         db.executescript(f.read())
