@@ -5,7 +5,7 @@ Date::Feb.18.2019
 """
 
 import os
-from .config import ProductionConfig, DevelopmentConfig
+from utilities.util_config import ProductionConfig, DevelopmentConfig
 from flask import Flask
 
 
@@ -17,12 +17,13 @@ def create_app():
     else:
         app.config.from_object(DevelopmentConfig)
 
-    from . import db, ep_app, ep_auth, ep_slack, ep_admin
-    db.init_app(app)
+    from endpoints import ep_auth
+    from endpoints import ep_poll
+    from utilities import util_database
 
-    app.register_blueprint(ep_app.bp)
+    util_database.init_app(app)
+
+    app.register_blueprint(ep_poll.bp)
     app.register_blueprint(ep_auth.bp)
-    app.register_blueprint(ep_slack.bp)
-    app.register_blueprint(ep_admin.bp)
 
     return app
