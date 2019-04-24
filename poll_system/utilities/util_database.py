@@ -10,6 +10,7 @@ import click
 from flask import current_app, g
 from flask.cli import with_appcontext
 
+import os
 
 def init_app(app):
     app.teardown_appcontext(close_db)
@@ -17,8 +18,10 @@ def init_app(app):
 
 
 def init_db():
+    print('attempting to create database')
     db = get_db()
 
+    print(os.path.dirname(os.path.realpath(__file__)))
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
