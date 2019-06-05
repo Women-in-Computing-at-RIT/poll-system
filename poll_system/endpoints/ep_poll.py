@@ -4,10 +4,9 @@ Author::Kevin.P.Barnett
 Date::Feb.18.2019
 """
 
-from flask import Blueprint, request
+from flask import Blueprint, request, g
 from poll_system.utilities.util_token import validate_token
-from poll_system.objects.obj_poll import Poll
-from poll_system.utilities.util_database import get_db
+from poll_system.objects.obj_poll import Poll, Option
 
 from uuid import uuid4
 from time import time
@@ -20,15 +19,14 @@ bp = Blueprint('poll', __name__, url_prefix='/poll')
 @validate_token
 def get_polls(token):
     poll_types = request.args.get('type', default='current', type=str).split(',')
-    db = get_db()
 
     return_polls = {}
 
     for type in poll_types:
         if type is 'user':
-            return_polls[type] = db.execute('SELECT * FROM polls WHERE type = ? AND author = ?', (type, token.get('user_id')))
+            return_polls[type] = Poll.query.filter_by(type='user', author=token.get('user_id')).all()
         else:
-            return_polls[type] = db.execute('SELECT * FROM polls WHERE type = ?', (type,)).fetchall()
+            return_polls[type] = Poll.query.filter_by(type=type).all()
 
     return json.dumps(return_polls), 200
 
@@ -36,25 +34,17 @@ def get_polls(token):
 @bp.route('/new', methods=['PUT'])
 @validate_token
 def put_new_poll(token):
-    try:
-        poll = json.loads(request.data, object_hook=Poll)
-        db = get_db()
+    poll = Poll.getFromDict(json.loads(request.data))
+    poll.timestamp = time()
+    for option in request.get_json()['options']:
+        tmp_option = Option()
+        tmp_option.option_id = str(uuid4())
+        tmp_option.poll_id = poll.id
+        tmp_option.option_text = option
+        poll.options += tmp_option
 
-        db.execute('INSERT INTO polls VALUES(?, ?, ?, ?, ?, ?, ?, ?)',
-                   (poll.id, token.get('user_id'), poll.name, poll.description, poll.can_add, poll.multi_select, int(time()), 'pending'))
-
-        for option in poll.options:
-            db.execute('INSERT INTO options VALUES(?, ?, ?)',
-                       (str(uuid4()), poll.id, option))
-
-        db.commit()
-
-    except KeyError as e:
-        missing_keys = str([key for key in e.args])
-        print('Missing required key(s): '+missing_keys)
-        return json.dumps({
-            'msg': 'missing required key(s): '+missing_keys
-        }), 400
+    g.db.session.add(poll)
+    g.db.session.commit()
 
     return json.dumps({
         'msg': 'poll created successfully'
@@ -65,7 +55,6 @@ def put_new_poll(token):
 def delete_poll(token):
     if token.get('role') is 'admin':
         poll_id = request.data.get('poll_id')
-        get_db().execute('DELETE FROM polls ')
 
 
 @bp.route('/asdfasdf', methods=['POST'])

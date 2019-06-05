@@ -4,11 +4,11 @@ Author::Kevin.P.Barnett
 Date::Feb.25.2019
 """
 
-from flask import Blueprint, request
+from flask import Blueprint, request, g
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from poll_system.utilities.util_token import generate_token_with_claims, validate_token
-from poll_system.utilities.util_database import get_db
+from ..objects.obj_auth import User
 
 import json
 
@@ -33,8 +33,15 @@ def post_new_user():
         print('Not Great Arguments')
         return json.dumps({'msg': 'either username or password is not entered'}), 400
 
-    get_db().execute('INSERT INTO users VALUES (?, ?, ?, ?)', (slack_id, username, generate_password_hash(password), False))
-    print(get_db().commit())
+    new_user = User(
+        slack_id=slack_id,
+        username=username,
+        password=generate_password_hash(password),
+        is_admin=False
+    )
+
+    g.db.session.add(new_user)
+    g.db.session.commit()
 
     return json.dumps({'msg': 'Account Created'}), 200
 
@@ -49,16 +56,16 @@ def post_login():
     if username is None or password is None:
         return json.dumps(return_data), 400
 
-    userRow = get_db().execute('SELECT * FROM users WHERE username=?', (username,)).fetchone()
-    if userRow is None:
+    user = User.query.filter_by(username=username).first()
+    if user is None:
         return json.dumps(return_data), 400
 
-    if check_password_hash(userRow['password'], password):
+    if check_password_hash(user.password, password):
         return_data = {
             'msg': 'Successfully logged in',
             'token': generate_token_with_claims({
-                'user_id': userRow['slack_id'],
-                'role': 'admin' if userRow['is_admin'] else 'member'
+                'user_id': user.slack_id,
+                'is_admin': user.is_admin
             }).decode()
         }
         return json.dumps(return_data), 200
